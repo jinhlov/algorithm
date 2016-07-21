@@ -2,18 +2,18 @@
 using namespace std;
 
 template<class T>
-class NodeSBT // ½áµã
+class NodeSBT // èŠ‚ç‚¹ç±»
 {
 public:
 	T data;
 	NodeSBT<T> *lch;
 	NodeSBT<T> *rch;
-	NodeSBT() :lch(NULL), rch(NULL) {};  // ³ÉÔ±³õÊ¼»¯ÁĞ±í£¬¹¹ÔìÊ±ºò¾Í³õÊ¼»¯
+	NodeSBT() :lch(NULL), rch(NULL) {};  // æˆå‘˜åˆå§‹åŒ–
 };
 
 
 /************************************************************************/
-/* ²éÕÒ                                                                     */
+/* æŸ¥æ‰¾                                                                  */
 /************************************************************************/
 template<class T>
 NodeSBT<T> *SearchSBT(NodeSBT<T> *R, T key)
@@ -25,10 +25,10 @@ NodeSBT<T> *SearchSBT(NodeSBT<T> *R, T key)
 }
 
 /************************************************************************/
-/* ²åÈë                                                                     */
+/* æ’å…¥                                                                  */
 /************************************************************************/
 template<class T>
-void InsertSBT(NodeSBT<T> *&R, T key)  // ×¢ÒâÕâÀïÈ¡ÁË*&!!!!!£¬²»È»²»¿ÉÒÔ³É¹¦
+void InsertSBT(NodeSBT<T> *&R, T key)  // æ³¨æ„è¿™é‡Œç”±äºæ”¹å˜äº†*RæŒ‡é’ˆæœ¬èº«çš„å€¼ï¼Œæ‰€ä»¥éœ€è¦åŠ &
 {
 	if (R == NULL){
 		R = new NodeSBT<T>();
@@ -41,64 +41,62 @@ void InsertSBT(NodeSBT<T> *&R, T key)  // ×¢ÒâÕâÀïÈ¡ÁË*&!!!!!£¬²»È»²»¿ÉÒÔ³É¹¦
 		InsertSBT(R->lch, key);
 }
 /************************************************************************/
-/* µİ¹éÊ½²éÕÒ´ıÉ¾³ı½áµã                                                   */
+/* åˆ é™¤å‰æŸ¥æ‰¾                                                             */
 /************************************************************************/
 template<class T>
 bool DeleteSBT(NodeSBT<T> *&R, T key)
 {
 	if (R == NULL)	return false;
 	else{
-		if (key == R->data)	Delete(R); // É¾³ıµ±Ç°
+		if (key == R->data)	Delete(R); // åˆ é™¤èŠ‚ç‚¹
 		else if (key < R->data)	DeleteSBT(R->lch, key);
 		else DeleteSBT(R->rch, key);
 	}
 	return true;
 }
 /************************************************************************/
-/* É¾³ıÄ³¸ö½áµã
-/* Ë¼Ïë£ºÓÃ×óº¢×Ó»ò×óº¢×ÓµÄÓÒº¢×Ó´úÌæ×Ô¼º / ÓÃÓÒº¢×Ó»òÓÒº¢×ÓµÄ×óº¢×Ó´úÌæ×Ô¼º
+/* åˆ é™¤
 /************************************************************************/
 template<class T>
 void Delete(NodeSBT<T> *&R)
 {
-	cout << "É¾³ı½áµã" << R->data << "..." << endl;
+	cout << "åˆ é™¤èŠ‚ç‚¹" << R->data << "..." << endl;
 	NodeSBT<T> *q, *s;
-	if (R->lch == NULL){ // ×ó½áµãÎª¿Õ
+	if (R->lch == NULL){ // å¦‚æœå³å­æ ‘ä¸å­˜åœ¨
 		q = R;
 		R = R->rch;
 		delete q;
 	}
-	else if (R->rch == NULL){ // ÓÒ½ÚµãÎª¿Õ
+	else if (R->rch == NULL){ // å¦‚æœå·¦å­æ ‘ä¸å­˜åœ¨
 		q = R;
 		R = R->lch;
 		delete q;
 	}
 	else{
-		q = R;
-		s = R->lch; // ×óº¢×Ó
-		while (s->rch != NULL){ // ÕÒµ½×óº¢×ÓµÄ×îÓÒº¢×Ó
+		q = R; // så­˜æ”¾ç”¨æ¥æ›¿æ¢çš„èŠ‚ç‚¹ï¼Œqå­˜åœ¨å…¶å‰é©±èŠ‚ç‚¹
+		s = R->lch; 
+		while (s->rch != NULL){ // ä¸€ç›´å‘å³éå†ç›´åˆ°ä¸ºç©º
 			q = s;
 			s = s->rch;
 		}
 		R->data = s->data;
-		if (R == q)	R->lch = s->lch; // Èç¹ûÊÇ°Ñ×óº¢×ÓÌæ»»ÁË
-		else q->rch = s->lch; // °Ñ×óº¢×ÓµÄÓÒº¢×ÓÌæ»»ÁË
+		if (R == q)	R->lch = s->lch; // å¦‚æœRçš„å·¦å­©å­sæ²¡æœ‰å³å­©å­ 
+		else q->rch = s->lch; // å¦‚æœæœ‰
+		delete s;
 	}
 }
 /************************************************************************/
-/* ½¨Á¢ÅÅĞòÊ÷                                                            */
+/* åˆ›å»ºä¸€æ£µæ ‘                                                             */
 /************************************************************************/
 template<class T>
 void CreateSBT(NodeSBT<T> *R, int r[], int n)
 {
 	for (int i = 1; i < n; i++){
-		/*		SBTNode<T> *node = new SBTNode<T>;
-		node->data = r[i];*/
 		InsertSBT(R, r[i]);
 	}
 }
 /************************************************************************/
-/* ´òÓ¡ÅÅĞòÊ÷                                                            */
+/* è¾“å‡ºäºŒå‰æ ‘                                                             */
 /************************************************************************/
 template<class T>
 void IteratorSBT(NodeSBT<T> *R)
@@ -111,7 +109,7 @@ void IteratorSBT(NodeSBT<T> *R)
 
 void main()
 {
-	int a[7] = { 0, 2, 3, 5, 5, 9, 19 }; // ´Ó0¿ªÊ¼
+	int a[7] = { 0, 2, 3, 5, 6, 9, 19 };  
 	int length = 7;
 	NodeSBT<int> *root = new NodeSBT<int>;
 	root->data = a[0];
